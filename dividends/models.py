@@ -20,5 +20,5 @@ class Portfolio_File(models.Model):
     def save(self, *args, **kwargs):
         super(Portfolio_File, self).save(*args, **kwargs)
         filename = self.data.url
-        # Do anything you'd like with the data in filename
+        # Do anything you'd like with the data in filename bla
     
