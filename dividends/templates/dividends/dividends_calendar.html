@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Marlon Payen - Dividends</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="static/dividends/style.css">
+<title>Home</title>
+</head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+<body>
+	<!-- Page Container -->
+	<div class="w3-content w3-margin-top" style="max-width:1700;">
+	
+	  <!-- The Grid -->
+	  <div class="grid">
+	  
+	    <!-- Left Column -->
+	    <div class="left-column">
+	    	<div class="topnav">
+				<a class="active" href="home">Home</a>
+				<a href="#calendar">Calendar</a>
+				<a href="#pieChart">Pie Chart</a>
+				<a href="#about">About</a>
+			</div>
+	    <!-- End Left Column -->
+	    </div>
+	
+	    <!-- Right Column -->
+	    <div class="right-column">
+			<h1>My First Heading</h1>
+			
+			<p>My first paragraph.</p>
+			
+			
+			<canvas id="monthly_amounts_dividends" style="width:100%;max-width:600px"></canvas>
+			{% for stock in stocks_list %}
+			<script>
+				var xValues = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+			    // Amount of dividends fetched for all stocks owned per month
+				var yValues = [55, 49, 44, 24, 15, 22, 105, 35, 38, 132, 80, 74];
+				var barColors = [
+					  "#b91d47",
+					  "#00aba9",
+					  "#2b5797",
+					  "#d8c3b9",
+					  "#e8d7b9",
+					  "#f8a3b9",
+					  "#a8f3f9",
+					  "#b8c8b9",
+					  "#e8c9a9",
+					  "#e8a1f9",
+					  "#b7e9d9",
+					  "#1d7145"
+					];
+	
+				new Chart("monthly_amounts_dividends", {
+				  type: "bar",
+				  data: {
+				    labels: xValues,
+				    datasets: [{
+				      backgroundColor: barColors,
+				      data: yValues
+				    }]
+				  },
+				  options: {
+					  title: {
+					      display: true,
+					      text: "Amount of dividends to receive"
+					    }}
+				});
+			</script>
+			{% endfor %}
+		<!-- End Right Column -->
+	    </div>
+	    
+	  <!-- End Grid -->
+	  </div>
+	  
+	  <!-- End Page Container -->
+	</div>
+</body>
+</html>

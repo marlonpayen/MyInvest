@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Marlon Payen - Dividends</title>
+<title>Marlon Payen - Stocks Portfolio</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="static/dividends/style.css">
+<!--<link rel="stylesheet" href="static/dividends/style.css"> -->
 <title>Home</title>
 </head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 <body>
 	<!-- Page Container -->
-	<div class="w3-content w3-margin-top" style="max-width:100%;">
+	<div class="w3-content w3-margin-top" style="max-width:1700;">
 	
 	  <!-- The Grid -->
 	  <div class="grid">
@@ -17,8 +18,8 @@
 	    <!-- Left Column -->
 	    <div class="left-column">
 	    	<div class="topnav">
-				<a class="active" href="#index">Home</a>
-				<a href="#calendar">Calendar</a>
+				<a class="active" href="home">Home</a>
+				<a href="dividends_calendar">Calendar</a>
 				<a href="#pieChart">Pie Chart</a>
 				<a href="#about">About</a>
 			</div>
@@ -28,12 +29,82 @@
 	    <!-- Right Column -->
 	    <div class="right-column">
 			<h1>My First Heading</h1>
-			<p>My first paragraph.</p>
-			<label for="myfile">Select a file:</label>
-			<form enctype="multipart/form-data" action="." method="post"> # define the enctype
-			    <input type="file"  name="portfolio_file"/> # define a 'name' attribute 
-			    <input type="submit" value="Submit" />
-			</form>
+			
+			<canvas id="portfolio" style="width:100%;max-width:600px"></canvas>
+			<script>
+		        stock_names = [];
+		        company_names = [];
+		        numbers_of_shares = [];
+			</script>
+			
+			{% for stock in stocks_list %}
+				<script>
+	        	// Get the list of stocks from the Jinja language passed into the HTML from the context object defined in the Django views
+				var number_of_shares = '{{ stock.number_of_shares }}';
+				var company_name = '{{ stock.company.name }}';
+		        
+		        //stock_names.push(stock.company.stock_name);
+		        company_names.push(company_name);
+		        numbers_of_shares.push(number_of_shares);
+		        
+				var barColors = [
+				  "#b91d47",
+				  "#00aba9",
+				  "#2b5797",
+				  "#d8c3b9",
+				  "#e8d7b9",
+				  "#f8a3b9",
+				  "#a8f3f9",
+				  "#b8c8b9",
+				  "#e8c9a9",
+				  "#e8a1f9",
+				  "#1d7145"
+				];
+				
+				new Chart("portfolio", {
+				  type: "pie",
+				  data: {
+				    labels: company_names,
+				    datasets: [{
+				      backgroundColor: barColors,
+				      data: numbers_of_shares
+				    }]
+				  },
+				  options: {
+				    title: {
+				      display: true,
+				      text: "Portfolio"
+				    }
+				  }
+				});
+				</script>
+			{% endfor %}
+			
+			
+			
+			<table>
+			  <tr>
+			    <th>Company</th>
+			    <th>Stock</th> 
+			    <th>Quantity</th>
+			    <th>Price</th>
+			    <th>Total amount</th> 
+			    <th>Currency</th>
+			  </tr>
+			  
+			  {% for new_transaction in new_transactions %}
+				
+			  <tr>
+			    <td>{{ new_transaction.company }}</td>
+			    <td>{{ new_transaction.stock }}</td> 
+			    <td>{{ new_transaction.price }}</td>
+			    <td>{{ new_transaction.total_amount }}</td>
+			    <td>{{ new_transaction.number_of_shares }}</td> 
+			    <td>{{ new_transaction.currency }}</td>
+			  </tr>
+			  
+			  {% endfor %}
+			</table>
 		<!-- End Right Column -->
 	    </div>
 	    

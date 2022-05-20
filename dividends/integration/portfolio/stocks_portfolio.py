@@ -28,4 +28,5 @@ class Stocks_Portfolio(object):
             return my_uploaded_file          
         else:
             return render(request, 'dividends/index.html')
+
         

@@ -3,7 +3,8 @@ from dividends import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('calendar', views.calendar, name='calendar'),
+    path('home', views.index, name='index'),
+    path('dividends_calendar', views.dividends_calendar, name='dividends_calendar'),
     path('pie chart', views.pieChart, name='pie chart'),
 
 ]

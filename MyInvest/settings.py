@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import os
+import json
+from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -130,3 +132,28 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'dividends/media/dividends')
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Definition of settings for email reading API
+with open(os.path.join(BASE_DIR, 'parameters.json')) as parameters_file:
+    parameters = json.load(parameters_file)
+
+def get_password(setting, parameters=parameters):
+    """Get secret setting or fail with ImproperlyConfigured"""
+    try:
+        return parameters[setting]
+    except KeyError:
+        raise ImproperlyConfigured("Set the {} setting".format(setting))
+
+EMAILS = {
+    'gmail': {
+        'FROM_EMAIL': 'marlon.payen4@gmail.com',
+        'FROM_PWD': get_password('GMAIL_PASSWORD'),
+        'SMTP_SERVER': 'imap.gmail.com',
+        'SMTP_PORT' : 993
+    },
+}
+
+TRADING212_SENDER = 'noreply@trading212.com'
+TRADING212_SUBJECT = 'Contract Note Statement from Trading 212'
+
+
